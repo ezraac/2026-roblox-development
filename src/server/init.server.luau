@@ -1,2 +1,2 @@
-print("Hello world, from server!")
-print("Hello world again!")
+local firebase = require(game.ReplicatedStorage.Shared.firebase_test)
+firebase.start()

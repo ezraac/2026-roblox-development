@@ -1,7 +1,8 @@
-print("Hello world, from client!")
+local helloArray = { "h", "e", "l", "l", "o" }
+local worldArray = { "w", "o", "r", "l", "d" }
 
-local test = 34
-
-if test == 34 then
-	test = 3
+for i, v in helloArray do
+	print(v)
 end
+
+print(table.concat(worldArray))
