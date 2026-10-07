@@ -1,5 +1,5 @@
-local firebase = require(game.ReplicatedStorage.Shared.firebase_test)
-local npc = require(game.ReplicatedStorage.Shared.NPC.init_npc)
+--local firebase = require(game.ReplicatedStorage.Shared.firebase_test)
+local npc = require(script.NPCHandler)
 
 npc.start()
---firebase.start()
+--firebase.start():wa
