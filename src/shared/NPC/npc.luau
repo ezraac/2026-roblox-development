@@ -17,7 +17,8 @@ function NPC.new(part, health)
 end
 
 function NPC:takeDamage(other)
-	if other then
+	local player = game:GetService("Players"):GetPlayerFromCharacter(other.Parent)
+	if player and player.Character and player.Character.PrimaryPart then
 		self.health -= 2
 		print(self.health)
 	end
