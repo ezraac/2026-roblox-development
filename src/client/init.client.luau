@@ -6,3 +6,6 @@ for i, v in helloArray do
 end
 
 print(table.concat(worldArray))
+
+local ActionGUIHandler = require(script.ActionGUIHandler)
+ActionGUIHandler.start()

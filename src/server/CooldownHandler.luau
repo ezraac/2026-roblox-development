@@ -146,4 +146,4 @@ function CooldownHandler:OnPlayerRemoving(player: Player)
 	print(player.Name .. "'s cooldowns has been cleared.")
 end
 
-return CooldownHandler
+return { CooldownHandler = CooldownHandler, PlayerAbilities = PlayerAbilities }
