@@ -3,9 +3,11 @@ local Players = game:GetService("Players")
 local npc = require(script.NPCHandler)
 local ProfileStoreHandler = require(script.Data.ProfileStoreHandler)
 local DataTester = require(script.Data.DataTester)
+local CooldownHandler = require(script.CooldownHandler)
 
 npc.start()
 ProfileStoreHandler.start()
 DataTester.start()
+CooldownHandler.CooldownHandler.start()
 
 --firebase.start()

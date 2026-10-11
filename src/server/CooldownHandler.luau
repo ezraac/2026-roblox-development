@@ -1,4 +1,5 @@
 local CooldownHandler = {}
+CooldownHandler.__index = CooldownHandler
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
@@ -87,6 +88,9 @@ function CooldownHandler:CanUseAbility(player: Player, abilityName)
 	if not PlayerAbilities.isValid(abilityName) then
 		error("[CooldownHandler:CanUseAbility] Invalid ability name: " .. tostring(abilityName))
 	end
+	if not self.CDs[player.UserId] then
+		return true
+	end
 
 	local abilityData = self.CDs[player.UserId][abilityName]
 	if not abilityData then
@@ -144,6 +148,17 @@ function CooldownHandler:OnPlayerRemoving(player: Player)
 	end
 	self.CDs[player.UserId] = nil
 	print(player.Name .. "'s cooldowns has been cleared.")
+end
+
+function CooldownHandler.start()
+	print("started cd manager")
+	game.Players.PlayerAdded:Connect(function(player: Player)
+		CooldownHandler:OnPlayerJoining(player)
+	end)
+
+	game.Players.PlayerRemoving:Connect(function(player: Player)
+		CooldownHandler:OnPlayerRemoving(player)
+	end)
 end
 
 return { CooldownHandler = CooldownHandler, PlayerAbilities = PlayerAbilities }

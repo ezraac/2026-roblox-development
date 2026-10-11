@@ -6,7 +6,7 @@ local Assets = ReplicatedStorage.Assets.ActionAssets
 
 local player = game.Players.LocalPlayer
 local playerGUI = player.PlayerGui
-local cooldownGui = playerGUI.Cooldowns
+local cooldownGui = playerGUI:WaitForChild("Cooldowns")
 local holder = cooldownGui.Background
 
 local RunService = game:GetService("RunService")
@@ -69,7 +69,7 @@ local function startCooldown(abilityName, duration)
 		timerLabel.Text = string.format("%.1f", remaining)
 
 		local scaleX = remaining / duration
-		bar.Size = UDim2.new(scaleX, 0, bar.Y.Scale, bar.Y.Offset)
+		bar.Size = UDim2.new(scaleX, 0, bar.Size.Y.Scale, bar.Size.Y.Offset)
 
 		if remaining <= 0 then
 			timerLabel.Text = ""
@@ -95,3 +95,5 @@ function ActionGUIHandler.start()
 		startCooldown(abilityName, cooldownTime)
 	end)
 end
+
+return ActionGUIHandler
