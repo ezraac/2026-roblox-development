@@ -22,12 +22,14 @@ local function getAnimator(char)
 end
 
 function AnimationHandler.LoadAnimation(char, _type, animationId, keyFrameCallback)
-	if not char or _type or not animationId then
+	if not char or not _type or not animationId then
+		print("[AnimationHandler.LoadAnimation] Char or _type or animationId is not valid")
 		return
 	end
 
 	local animator = getAnimator(char)
 	if not animator then
+		print("[AnimationHandler.LoadAnimation] Animator not found")
 		return
 	end
 
@@ -62,7 +64,7 @@ function AnimationHandler.LoadAnimation(char, _type, animationId, keyFrameCallba
 	}
 
 	track:Play()
-	Debris:AddItem(track, track.length() + 1)
+	Debris:AddItem(track, track.Length + 1)
 end
 
 function AnimationHandler.GetAnimation(char, animationType)
@@ -79,7 +81,7 @@ function AnimationHandler.IsPlaying(char, _type, animationId)
 	local entry = AnimationHandler.Animations[char]
 		and AnimationHandler.Animations[char][_type]
 		and AnimationHandler.Animations[char][_type][animationId]
-	return entry and entry.Track and entry.Track.IsPlaying() or false
+	return entry and entry.Track and entry.Track.IsPlaying or false
 end
 
 function AnimationHandler.RemoveAnimation(char, _type, animationId)
@@ -95,7 +97,7 @@ function AnimationHandler.RemoveAnimation(char, _type, animationId)
 
 		if animationData.Connections then
 			for _, conn in pairs(animationData.Connections) do
-				if conn.Connected() then
+				if conn.Connected then
 					conn:Disconnect()
 				end
 			end
@@ -112,3 +114,38 @@ function AnimationHandler.RemoveAnimation(char, _type, animationId)
 		end
 	end
 end
+
+function AnimationHandler.StopAnimation(char, _type, animationId)
+	if not AnimationHandler.Animations[char] then
+		return
+	end
+
+	if _type == "ALL" then
+		for typeKey, animations in pairs(AnimationHandler.Animations[char]) do
+			for id in pairs(animations) do
+				AnimationHandler.RemoveAnimation(char, typeKey, id)
+			end
+		end
+	else
+		if animationId then
+			AnimationHandler.RemoveAnimation(char, _type, animationId)
+		else
+			for id in pairs(AnimationHandler.Animations[char][_type] or {}) do
+				AnimationHandler.RemoveAnimation(char, _type, id)
+			end
+		end
+	end
+end
+
+function AnimationHandler.start()
+	Players.PlayerAdded:Connect(function(player: Player)
+		local char = player.Character or player:FindFirstChild("Character")
+
+		if AnimationHandler.Animations[char] then
+			AnimationHandler.StopAnimation(char, "ALL")
+			AnimationHandler.Animations[char] = nil
+		end
+	end)
+end
+
+return AnimationHandler
