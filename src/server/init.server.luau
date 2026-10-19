@@ -4,10 +4,12 @@ local npc = require(script.NPCHandler)
 local ProfileStoreHandler = require(script.Data.ProfileStoreHandler)
 local DataTester = require(script.Data.DataTester)
 local CooldownHandler = require(script.CooldownHandler)
+local ApplePickingHandler = require(script.ApplePickingHandler)
 
 npc.start()
 ProfileStoreHandler.start()
 DataTester.start()
 CooldownHandler.CooldownHandler.start()
+ApplePickingHandler.start()
 
 --firebase.start()
